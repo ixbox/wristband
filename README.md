@@ -72,6 +72,7 @@ $identity = $source->authenticate(ProxyRequest::fromArray(['x-amzn-oidc-data' =>
 ### oauth2-proxy の ID トークン（`BearerJwtSource`）
 
 oauth2-proxy に `--pass-authorization-header=true` を付けると、ID トークンが `Authorization: Bearer` で届く。
+次の例は、oauth2-proxy の後ろの IdP が Cognito の場合である。
 
 ```php
 use Ixbox\Wristband\Bearer\BearerConfig;
@@ -81,10 +82,10 @@ use Ixbox\Wristband\Source\BearerJwtSource;
 
 $config = new BearerConfig(
     'https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_XXXX', // iss（完全一致）
-    'app-client-id',          // aud または client_id。複数なら配列
-    ['RS256', 'ES256'],
-    30,
-    'id'                      // Cognito のみ: token_use
+    'app-client-id',          // ID トークンの aud（Cognito ではアプリクライアント ID）。複数なら配列
+    ['RS256'],                // IdP が署名に使う方式だけを許可する。Cognito は RS256
+    30,                       // exp、nbf、iat の許容誤差（秒）
+    'id'                      // token_use。Cognito 以外の IdP のトークンにはないので null にする
 );
 
 $jwks = HttpJwksProvider::fromIssuer($config->issuer(), null, $cache);
