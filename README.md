@@ -15,15 +15,6 @@
 composer require ixbox/wristband
 ```
 
-Packagist には未登録である。
-それまでは GitHub のリポジトリを VCS リポジトリとして `composer.json` の `repositories` に追加する。
-
-```json
-"repositories": [
-    { "type": "vcs", "url": "https://github.com/ixbox/wristband" }
-]
-```
-
 ## 使い方
 
 ### ALB（`x-amzn-oidc-data`）
