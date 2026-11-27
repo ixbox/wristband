@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0（未リリース）
+
+- `NativeHttpClient` の第 2 引数で、信頼する CA 証明書のファイルを指定できるようにした（社内 CA、ローカルのエミュレータなど）。
+- テスト：AWS Emulator の Cognito が発行したトークンを、discovery と JWKS の HTTPS 取得を含めて検証する結合テストと、その CI のジョブを追加した。
+
 ## 0.2.1（2026-11-27）
 
 - 依存の下限を、実際に必要な版まで下げた：`symfony/polyfill-ctype` を `^1.8`、`symfony/polyfill-php80` を `^1.16`（`str_starts_with` が入った版）。

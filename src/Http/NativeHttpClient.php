@@ -4,18 +4,35 @@ declare(strict_types=1);
 
 namespace Ixbox\Wristband\Http;
 
+use Ixbox\Wristband\Exception\ConfigurationException;
+
 /**
  * Minimal GET client: ext-curl when available, otherwise PHP streams.
  * TLS peers are always verified and redirects are never followed.
+ *
+ * By default the system CA store is trusted (php.ini curl.cainfo /
+ * openssl.cafile apply). Pass $caFile to trust a specific PEM bundle
+ * instead, e.g. a corporate CA or a local emulator's self-signed CA.
  */
 final class NativeHttpClient implements HttpClientInterface
 {
     /** @var bool */
     private $useCurl;
+    /** @var non-empty-string|null */
+    private $caFile;
 
-    public function __construct(?bool $useCurl = null)
+    /**
+     * @param string|null $caFile PEM file of the CA certificates to trust instead of the system store
+     */
+    public function __construct(?bool $useCurl = null, ?string $caFile = null)
     {
         $this->useCurl = $useCurl !== null ? $useCurl : function_exists('curl_init');
+        if ($caFile !== null && $caFile !== '') {
+            if (!is_file($caFile) || !is_readable($caFile)) {
+                throw new ConfigurationException('The CA file is not a readable file: ' . $caFile);
+            }
+            $this->caFile = $caFile;
+        }
     }
 
     public function get(string $url, float $timeoutSeconds, int $maxBytes): HttpResponse
@@ -57,6 +74,9 @@ final class NativeHttpClient implements HttpClientInterface
                 return strlen($chunk);
             },
         ]);
+        if ($this->caFile !== null) {
+            curl_setopt($handle, CURLOPT_CAINFO, $this->caFile);
+        }
         $ok = curl_exec($handle);
         $status = (int) curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
         $error = curl_error($handle);
@@ -86,7 +106,7 @@ final class NativeHttpClient implements HttpClientInterface
             'ssl' => [
                 'verify_peer' => true,
                 'verify_peer_name' => true,
-            ],
+            ] + ($this->caFile !== null ? ['cafile' => $this->caFile] : []),
         ]);
 
         // Read the status line from the stream metadata: unlike the magic

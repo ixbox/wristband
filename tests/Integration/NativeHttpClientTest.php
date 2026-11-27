@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ixbox\Wristband\Tests\Integration;
 
+use Ixbox\Wristband\Exception\ConfigurationException;
 use Ixbox\Wristband\Http\HttpException;
 use Ixbox\Wristband\Http\NativeHttpClient;
 use PHPUnit\Framework\TestCase;
@@ -113,6 +114,12 @@ final class NativeHttpClientTest extends TestCase
         } catch (HttpException $e) {
             self::assertLessThan(2.5, microtime(true) - $started);
         }
+    }
+
+    public function testCaFileMustBeReadable(): void
+    {
+        $this->expectException(ConfigurationException::class);
+        new NativeHttpClient(null, __DIR__ . '/does-not-exist.pem');
     }
 
     public function testRejectsOtherSchemes(): void

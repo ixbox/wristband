@@ -44,6 +44,56 @@ jobs:
       - run: composer update --no-interaction --no-progress --prefer-dist --prefer-lowest
       - run: vendor/bin/phpunit
 
+  emulator:
+    name: AWS Emulator (Cognito)
+    runs-on: ubuntu-latest
+    env:
+      AWS_ENDPOINT_URL: https://127.0.0.1:9297
+      AWS_SHARED_CREDENTIALS_FILE: /home/runner/.aws/emulator/9297/emulator_credentials
+      AWS_CONFIG_FILE: /home/runner/.aws/emulator/9297/config
+      AWS_CA_BUNDLE: /home/runner/.aws/emulator/9297/ca.pem
+      AWS_EC2_METADATA_DISABLED: 'true'
+      AWS_DISABLE_HOST_PREFIX_INJECTION: 'true'
+      AWS_REGION: ap-northeast-1
+      AWS_DEFAULT_REGION: ap-northeast-1
+      WRISTBAND_EMULATOR_REQUIRED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      # https://docs.aws.amazon.com/emulator/latest/userguide/getting-started-docker.html
+      - name: Start AWS Emulator
+        run: |
+          docker build -t aws-emulator - <<'DOCKERFILE'
+          FROM public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
+          ADD https://downloads.aws.com/aws-emulator/packages/aws-emulator/LTS/latest/aws-emulator-x86_64.rpm /tmp/aws-emulator.rpm
+          RUN rpm -i /tmp/aws-emulator.rpm && rm /tmp/aws-emulator.rpm \
+              && mkdir -p /home/emulator && chown 1000 /home/emulator
+          USER 1000
+          ENV HOME=/home/emulator EMULATOR_BIND_ADDRESS=0.0.0.0
+          ENTRYPOINT ["aws-emulator"]
+          DOCKERFILE
+          mkdir -p "$HOME/.aws/emulator"
+          docker run -d --name aws-emulator --user "$(id -u):$(id -g)" --memory=2g --memory-swap=2g \
+            -p 127.0.0.1:9297:9297 -e HOME="$HOME" -v "$HOME/.aws/emulator:$HOME/.aws/emulator" \
+            aws-emulator -p 9297 --telemetry off
+          for i in $(seq 1 60); do
+            curl -sf --cacert "$AWS_CA_BUNDLE" https://127.0.0.1:9297/__admin/health && exit 0
+            sleep 1
+          done
+          docker logs aws-emulator
+          exit 1
+      - name: Create Cognito resources
+        run: |
+          unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_PROFILE
+          tests/Emulator/setup-cognito.sh >> "$GITHUB_ENV"
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: openssl, json, curl
+          coverage: none
+          tools: composer:v2
+      - run: composer update --no-interaction --no-progress --prefer-dist
+      - run: vendor/bin/phpunit --testdox tests/Emulator
+
   phpstan:
     name: PHPStan (target PHP 7.2)
     runs-on: ubuntu-latest
