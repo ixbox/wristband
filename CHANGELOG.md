@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.1（未リリース）
+## 0.2.1（2026-11-27）
 
 - 依存の下限を、実際に必要な版まで下げた：`symfony/polyfill-ctype` を `^1.8`、`symfony/polyfill-php80` を `^1.16`（`str_starts_with` が入った版）。
 
