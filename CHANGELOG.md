@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0（未リリース）
+## 0.1.0（2026-11-27）
 
 - `AlbTokenVerifier`：ALB の `x-amzn-oidc-data`（ES256）を検証する。
 - `BearerTokenVerifier`：OIDC の JWT（RS256、ES256）を JWKS で検証する。
