@@ -1,0 +1,16 @@
+parameters:
+    level: 8
+    # Analyse as PHP 7.2 so syntax and functions newer than 7.2 are reported.
+    phpVersion: 70200
+    paths:
+        - src
+        - tests
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # psr/simple-cache 3 uses the PHP 8 "mixed" type, which a 7.2 target reads as a class name.
+        -
+            message: '#Psr\\SimpleCache\\mixed#'
+            path: src/Cache/Psr16Cache.php
+        -
+            identifier: staticMethod.alreadyNarrowedType
+            path: tests/*
