@@ -29,6 +29,21 @@ jobs:
       - name: PHPUnit
         run: vendor/bin/phpunit
 
+  lowest:
+    name: PHP 7.2 (lowest dependencies)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.2'
+          extensions: openssl, json, curl
+          coverage: none
+          tools: composer:v2
+      # Checks that the lower bounds in composer.json (e.g. the polyfills) really suffice.
+      - run: composer update --no-interaction --no-progress --prefer-dist --prefer-lowest
+      - run: vendor/bin/phpunit
+
   phpstan:
     name: PHPStan (target PHP 7.2)
     runs-on: ubuntu-latest
