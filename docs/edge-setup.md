@@ -79,6 +79,59 @@ oauth2-proxy に `--cookie-refresh` を設定して、期限より前にトー�
 oauth2-proxy は `/oauth2/sign_out` で自分の cookie を消し、`rd` に指定した URL にリダイレクトする。
 IdP のセッションも切る場合は、`rd` に IdP の logout の URL を指定し、そのドメインを `--whitelist-domain` で許可する。
 
+## ALB の JWT 検証（`jwt-validation`）
+
+ALB の JWT 検証は、クライアントが送った JWT を ALB が JWKS で検証し、通ればトークンをそのままアプリに転送する機能である。
+機械どうしの通信（M2M）向けで、ALB が署名した独自のヘッダー（`x-amzn-oidc-data` など）は付けない。
+アプリ側では、ALB と同じ設定で `BearerJwtSource` を使う。
+
+| ALB の設定 | wristband の設定 |
+|---|---|
+| `Issuer` | `BearerConfig` の issuer（Laravel では `bearer.issuer`） |
+| `JwksEndpoint` | `HttpJwksProvider::fromJwksUri()`（Laravel では `bearer.jwks_uri`） |
+| `AdditionalClaims` | `withRequiredClaims()`、scope は `withRequiredScopes()`（Laravel では `bearer.required_claims`、`bearer.required_scopes`） |
+| （なし） | audience（`aud` か `client_id`）。wristband では必須 |
+| RS256 のみ | `['RS256']` に絞る |
+
+```json
+[
+  {
+    "Type": "jwt-validation",
+    "Order": 1,
+    "JwtValidationConfig": {
+      "JwksEndpoint": "https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_XXXX/.well-known/jwks.json",
+      "Issuer": "https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_XXXX",
+      "AdditionalClaims": [
+        { "Name": "scope", "Format": "space-separated-values", "Values": ["orders/read"] }
+      ]
+    }
+  },
+  { "Type": "forward", "Order": 2, "TargetGroupArn": "<target group ARN>" }
+]
+```
+
+```php
+$config = (new BearerConfig(
+    'https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_XXXX',
+    ['svc-a-client-id', 'svc-b-client-id'],
+    ['RS256'],
+    30,
+    'access'
+))->withRequiredScopes(['orders/read']);
+```
+
+API リファレンスによると、1 つのルールに入れられる認証アクションは、`authenticate-oidc`、`authenticate-cognito`、`jwt-validation` のうち 1 つである。
+人のログイン（`authenticate-cognito`）と M2M（`jwt-validation`）を同じアプリで受ける場合は、パスやヘッダーの条件でルールを分ける。
+
+ALB で検証済みでも、アプリでもう一度検証する。
+アプリに ALB を通らない経路があった場合や、ALB の設定を誤った場合に、検証されていないトークンを信用しないためである。
+
+ALB の設定項目には audience がない。
+同じ issuer が別のクライアントに発行したトークンも ALB を通るので、受け入れるクライアントはアプリ側の audience で絞る。
+
+AWS のドキュメントは、トークンを入れるヘッダーの名前を明記していない。
+`Authorization: Bearer` 以外のヘッダーで送る場合は、`BearerJwtSource` のヘッダー名と scheme を合わせる。
+
 ## ローカル開発（oauth2-proxy とコンテナの IdP）
 
 本番と同じ `BearerJwtSource` を使う。

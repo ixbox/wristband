@@ -100,6 +100,27 @@ JWKS は kid ごとに引く。
 
 `Authorization` が `Basic` などの別の scheme のときは「資格情報なし」として扱う（前段の Basic 認証と共存できる）。
 
+### 機械どうしの通信（M2M）と ALB の JWT 検証
+
+client credentials で発行したアクセストークンも、`BearerJwtSource` で検証できる。
+ALB の JWT 検証（listener の `jwt-validation` アクション）は、検証したトークンをそのまま転送するので、アプリ側でも同じ issuer と JWKS で検証できる。
+ALB 側の設定との対応は [docs/edge-setup.md](docs/edge-setup.md) にある。
+
+必須の scope と claim は、`BearerConfig` に指定する。
+
+```php
+$config = (new BearerConfig($issuer, 'm2m-client-id', ['RS256'], 30, 'access'))
+    ->withRequiredScopes(['orders/read'])                       // scope（または scp）にすべて含まれること
+    ->withRequiredClaims(['client_id' => ['svc-a', 'svc-b']]);  // いずれかの値と一致すること
+
+$identity->clientId();             // client_id、azp、cid の順に探す
+$identity->scopes();               // ['orders/read', 'orders/write']
+$identity->hasScope('orders/read');
+```
+
+Cognito のアクセストークンには `aud` がなく、`client_id` がある。
+`BearerConfig` の audience は、`aud` がないときは `client_id` と照合する。
+
 ### oauth2-proxy の署名のないヘッダー（`TrustedHeadersSource`）
 
 `--pass-user-headers` や `--set-xauthrequest` で付くヘッダーを、そのまま信用する。
@@ -133,6 +154,8 @@ nginx の `real_ip` で `REMOTE_ADDR` をクライアントの IP に書き換�
 | `groups()` | `cognito:groups`、`groups` の順に探す。文字列ならカンマで分ける |
 | `claims()`、`claim($name)`、`header()` | 生の値 |
 | `issuer()`、`expiresAt()` | payload と header から求める |
+| `clientId()` | `client_id`、`azp`、`cid`、ALB の header の `client` の順に探す |
+| `scopes()`、`hasScope($scope)` | `scope`（空白区切り）または `scp` から求める |
 
 どの claim を使うかは `ClaimMap` で変えられる（Entra ID の `oid` と `upn` など）。
 
@@ -148,7 +171,7 @@ nginx の `real_ip` で `REMOTE_ADDR` をクライアントの IP に書き換�
 | `TokenMalformedException` | 形式の誤り | `invalid_format`、`too_long`、`multiple_headers`、`alg_not_allowed`、`invalid_kid`、`exp_missing`、`subject_missing` |
 | `SignatureInvalidException` | 署名が合わない | `signature_invalid`、`key_type_mismatch` |
 | `SignerMismatchException` | 設定外の ALB が署名した | `signer_mismatch` |
-| `ClaimInvalidException` | client、iss、aud、token_use、nbf、iat が合わない | `client_mismatch`、`issuer_mismatch`、`audience_mismatch`、`not_yet_valid` |
+| `ClaimInvalidException` | client、iss、aud、token_use、nbf、iat、必須の scope と claim が合わない | `client_mismatch`、`issuer_mismatch`、`audience_mismatch`、`not_yet_valid`、`scope_missing`、`claim_mismatch` |
 | `ExpiredException` | 期限切れ | `expired` |
 | `KeyFetchFailedException` | 公開鍵や JWKS を取得できない | `key_fetch_status`、`key_fetch_backoff`、`unknown_kid`、`jwks_fetch_error` |
 | `UntrustedRequestException` | 署名のないヘッダーが信用できない経路から届いた | `shared_secret_mismatch`、`untrusted_peer` |
@@ -167,7 +190,7 @@ ALB のトークンは、次の順に確かめる。
 6. 設定していれば、`client` と `iss` を確かめる。
 7. header の `exp`（必須）と payload の `exp`（あれば）を、許容誤差つきで確かめる。
 
-OIDC の JWT は、alg の許可リスト、iss（鍵を取得する前）、kid と JWK の種類の一致、署名、`exp`（必須）、`nbf`、`iat`、aud または client_id、token_use の順に確かめる。
+OIDC の JWT は、alg の許可リスト、iss（鍵を取得する前）、kid と JWK の種類の一致、署名、`exp`（必須）、`nbf`、`iat`、aud または client_id、token_use、必須の scope と claim の順に確かめる。
 
 入口では、同じヘッダーが複数あるものと、16KB を超えるものを拒否する。
 PHP-FPM は重複したヘッダーを `a, b` の形に連結するが、カンマは base64url の文字ではないので、形式の検査で拒否される。

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0（未リリース）
+
+- `BearerConfig::withRequiredScopes()` と `withRequiredClaims()`：必須の scope と claim を確かめる（ALB の JWT 検証の `AdditionalClaims` に相当）。
+- `Identity::scopes()`、`hasScope()`、`clientId()`。
+- ドキュメント：ALB の JWT 検証（`jwt-validation`）との対応。
+
 ## 0.1.0（2026-11-27）
 
 - `AlbTokenVerifier`：ALB の `x-amzn-oidc-data`（ES256）を検証する。

@@ -14,6 +14,7 @@ use Ixbox\Wristband\Exception\TokenMalformedException;
 use Ixbox\Wristband\Exception\TokenMissingException;
 use Ixbox\Wristband\Identity;
 use Ixbox\Wristband\Jwks\JwksProviderInterface;
+use Ixbox\Wristband\Jwt\ClaimValues;
 use Ixbox\Wristband\Jwt\JwkConverter;
 use Ixbox\Wristband\Jwt\Jwt;
 use Ixbox\Wristband\Jwt\Signature;
@@ -31,6 +32,7 @@ use Ixbox\Wristband\Jwt\TimeClaims;
  *  6. exp (required), nbf, iat, with leeway
  *  7. aud contains, or client_id equals, a configured audience
  *  8. token_use, when configured (Cognito)
+ *  9. required scopes and claims, when configured
  */
 final class BearerTokenVerifier
 {
@@ -91,6 +93,17 @@ final class BearerTokenVerifier
         $tokenUse = $this->config->tokenUse();
         if ($tokenUse !== null && ($payload['token_use'] ?? null) !== $tokenUse) {
             throw new ClaimInvalidException('token_use_mismatch', 'The token_use claim is not "' . $tokenUse . '".');
+        }
+        $scopes = ClaimValues::scopes($payload);
+        foreach ($this->config->requiredScopes() as $scope) {
+            if (!in_array($scope, $scopes, true)) {
+                throw new ClaimInvalidException('scope_missing', 'The token lacks the required scope "' . $scope . '".');
+            }
+        }
+        foreach ($this->config->requiredClaims() as $name => $allowed) {
+            if (!array_key_exists($name, $payload) || !ClaimValues::matches($payload[$name], $allowed)) {
+                throw new ClaimInvalidException('claim_mismatch', 'The claim "' . $name . '" does not have an allowed value.');
+            }
         }
 
         return Identity::fromClaims(Identity::SOURCE_BEARER, $payload, $header, $this->claimMap);

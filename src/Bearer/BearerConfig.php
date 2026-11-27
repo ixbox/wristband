@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ixbox\Wristband\Bearer;
 
 use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Jwt\ClaimValues;
 use Ixbox\Wristband\Jwt\Signature;
 
 /**
@@ -33,6 +34,10 @@ final class BearerConfig
     private $tokenUse;
     /** @var int */
     private $maxTokenLength = 16384;
+    /** @var list<string> */
+    private $requiredScopes = [];
+    /** @var array<string, list<string>> */
+    private $requiredClaims = [];
 
     /**
      * @param string|list<string> $audiences
@@ -106,6 +111,72 @@ final class BearerConfig
     public function maxTokenLength(): int
     {
         return $this->maxTokenLength;
+    }
+
+    /** @return list<string> */
+    public function requiredScopes(): array
+    {
+        return $this->requiredScopes;
+    }
+
+    /** @return array<string, list<string>> */
+    public function requiredClaims(): array
+    {
+        return $this->requiredClaims;
+    }
+
+    /**
+     * Scopes that must all be present in "scope" (space-separated) or "scp".
+     *
+     * @param list<string> $scopes
+     */
+    public function withRequiredScopes(array $scopes): self
+    {
+        $clone = clone $this;
+        $clone->requiredScopes = [];
+        foreach ($scopes as $scope) {
+            if (!is_string($scope) || trim($scope) === '' || preg_match('/\s/', trim($scope)) === 1) {
+                throw new ConfigurationException('Each required scope must be a single non-empty word.');
+            }
+            $clone->requiredScopes[] = trim($scope);
+        }
+
+        return $clone;
+    }
+
+    /**
+     * Claims that must have one of the given values, like the ALB
+     * jwt-validation "AdditionalClaims". A value may be a string, int or
+     * bool, or a list of them (any one matches). When the claim in the token
+     * is an array, one of its elements must match.
+     *
+     *     ->withRequiredClaims(['client_id' => ['svc-a', 'svc-b'], 'tenant' => 'acme'])
+     *
+     * @param array<string, string|int|bool|list<string|int|bool>> $claims
+     */
+    public function withRequiredClaims(array $claims): self
+    {
+        $clone = clone $this;
+        $clone->requiredClaims = [];
+        foreach ($claims as $name => $values) {
+            if (!is_string($name) || $name === '') {
+                throw new ConfigurationException('Required claim names must be non-empty strings.');
+            }
+            $allowed = [];
+            foreach (is_array($values) ? $values : [$values] as $value) {
+                $normalized = ClaimValues::normalize($value);
+                if ($normalized === null) {
+                    throw new ConfigurationException('Required claim values must be strings, integers or booleans: ' . $name);
+                }
+                $allowed[] = $normalized;
+            }
+            if ($allowed === []) {
+                throw new ConfigurationException('Required claim "' . $name . '" has no allowed values.');
+            }
+            $clone->requiredClaims[$name] = $allowed;
+        }
+
+        return $clone;
     }
 
     public function withMaxTokenLength(int $bytes): self

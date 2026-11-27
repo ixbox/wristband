@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ixbox\Wristband;
 
 use Ixbox\Wristband\Exception\TokenMalformedException;
+use Ixbox\Wristband\Jwt\ClaimValues;
 
 /**
  * The authenticated user as reported by the edge, independent of which
@@ -141,6 +142,38 @@ final class Identity
         return $this->groups;
     }
 
+    /**
+     * Scopes from "scope" (space-separated) or "scp". Mostly present in
+     * access tokens, e.g. machine-to-machine (client credentials) tokens.
+     *
+     * @return list<string>
+     */
+    public function scopes(): array
+    {
+        return ClaimValues::scopes($this->claims);
+    }
+
+    public function hasScope(string $scope): bool
+    {
+        return in_array($scope, $this->scopes(), true);
+    }
+
+    /**
+     * The OAuth client the token was issued to: client_id (Cognito access
+     * tokens), azp, cid, or the ALB header "client".
+     */
+    public function clientId(): ?string
+    {
+        foreach (['client_id', 'azp', 'cid'] as $name) {
+            $value = self::stringClaim($this->claims, $name);
+            if ($value !== null) {
+                return $value;
+            }
+        }
+
+        return self::stringClaim($this->header, 'client');
+    }
+
     /** @return array<string, mixed> */
     public function claims(): array
     {
@@ -196,6 +229,8 @@ final class Identity
             'email_verified' => $this->emailVerified,
             'username' => $this->username,
             'groups' => $this->groups,
+            'scopes' => $this->scopes(),
+            'client_id' => $this->clientId(),
             'claims' => $this->claims,
             'header' => $this->header,
         ];
