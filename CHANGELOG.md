@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0（未リリース）
+## 0.2.0（2026-11-27）
 
 - `BearerConfig::withRequiredScopes()` と `withRequiredClaims()`：必須の scope と claim を確かめる（ALB の JWT 検証の `AdditionalClaims` に相当）。
 - `Identity::scopes()`、`hasScope()`、`clientId()`。
