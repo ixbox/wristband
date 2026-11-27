@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Unit;
+namespace Ixbox\Wristband\Tests\Unit;
 
-use Ixbox\EdgeIdentity\Clock\FrozenClock;
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Exception\SignatureInvalidException;
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
-use Ixbox\EdgeIdentity\Exception\TokenMissingException;
-use Ixbox\EdgeIdentity\Exception\UntrustedRequestException;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Request\ProxyRequest;
-use Ixbox\EdgeIdentity\Source\AlbOidcDataSource;
-use Ixbox\EdgeIdentity\Source\BearerJwtSource;
-use Ixbox\EdgeIdentity\Source\ChainSource;
-use Ixbox\EdgeIdentity\Source\TrustedHeadersConfig;
-use Ixbox\EdgeIdentity\Source\TrustedHeadersSource;
-use Ixbox\EdgeIdentity\Testing\AlbTokenFactory;
-use Ixbox\EdgeIdentity\Testing\JwtTokenFactory;
+use Ixbox\Wristband\Clock\FrozenClock;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\SignatureInvalidException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
+use Ixbox\Wristband\Exception\TokenMissingException;
+use Ixbox\Wristband\Exception\UntrustedRequestException;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Request\ProxyRequest;
+use Ixbox\Wristband\Source\AlbOidcDataSource;
+use Ixbox\Wristband\Source\BearerJwtSource;
+use Ixbox\Wristband\Source\ChainSource;
+use Ixbox\Wristband\Source\TrustedHeadersConfig;
+use Ixbox\Wristband\Source\TrustedHeadersSource;
+use Ixbox\Wristband\Testing\AlbTokenFactory;
+use Ixbox\Wristband\Testing\JwtTokenFactory;
 use PHPUnit\Framework\TestCase;
 
 final class SourcesTest extends TestCase

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Support;
+namespace Ixbox\Wristband\Tests\Support;
 
-use Ixbox\EdgeIdentity\Http\HttpClientInterface;
-use Ixbox\EdgeIdentity\Http\HttpException;
-use Ixbox\EdgeIdentity\Http\HttpResponse;
+use Ixbox\Wristband\Http\HttpClientInterface;
+use Ixbox\Wristband\Http\HttpException;
+use Ixbox\Wristband\Http\HttpResponse;
 
 final class FakeHttpClient implements HttpClientInterface
 {

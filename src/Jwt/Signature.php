@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Jwt;
+namespace Ixbox\Wristband\Jwt;
 
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
 
 /**
  * ES256 and RS256 verification with ext-openssl.

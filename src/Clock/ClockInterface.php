@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Clock;
+namespace Ixbox\Wristband\Clock;
 
 interface ClockInterface
 {

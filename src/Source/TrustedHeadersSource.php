@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Source;
+namespace Ixbox\Wristband\Source;
 
-use Ixbox\EdgeIdentity\Exception\TokenMissingException;
-use Ixbox\EdgeIdentity\Exception\UntrustedRequestException;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Request\ProxyRequest;
+use Ixbox\Wristband\Exception\TokenMissingException;
+use Ixbox\Wristband\Exception\UntrustedRequestException;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Request\ProxyRequest;
 
 /**
  * Trusts plain identity headers set by oauth2-proxy (--pass-user-headers or

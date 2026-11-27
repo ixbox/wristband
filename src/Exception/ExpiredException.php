@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Exception;
+namespace Ixbox\Wristband\Exception;
 
 /**
  * exp (in the header or payload) has passed, beyond the configured leeway.

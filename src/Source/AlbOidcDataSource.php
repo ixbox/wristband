@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Source;
+namespace Ixbox\Wristband\Source;
 
-use Ixbox\EdgeIdentity\Alb\AlbTokenVerifier;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Request\ProxyRequest;
+use Ixbox\Wristband\Alb\AlbTokenVerifier;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Request\ProxyRequest;
 
 /**
  * Reads x-amzn-oidc-data set by an ALB authenticate-cognito / authenticate-oidc action.

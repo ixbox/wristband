@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Integration;
+namespace Ixbox\Wristband\Tests\Integration;
 
-use Ixbox\EdgeIdentity\Http\HttpException;
-use Ixbox\EdgeIdentity\Http\NativeHttpClient;
+use Ixbox\Wristband\Http\HttpException;
+use Ixbox\Wristband\Http\NativeHttpClient;
 use PHPUnit\Framework\TestCase;
 
 final class NativeHttpClientTest extends TestCase

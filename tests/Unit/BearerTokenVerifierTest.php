@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Unit;
+namespace Ixbox\Wristband\Tests\Unit;
 
-use Ixbox\EdgeIdentity\Bearer\BearerConfig;
-use Ixbox\EdgeIdentity\Bearer\BearerTokenVerifier;
-use Ixbox\EdgeIdentity\Clock\FrozenClock;
-use Ixbox\EdgeIdentity\Exception\ClaimInvalidException;
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Exception\ExpiredException;
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
-use Ixbox\EdgeIdentity\Exception\SignatureInvalidException;
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Jwks\JwksProviderInterface;
-use Ixbox\EdgeIdentity\Jwks\StaticJwksProvider;
-use Ixbox\EdgeIdentity\Jwt\Base64Url;
-use Ixbox\EdgeIdentity\Testing\JwtTokenFactory;
+use Ixbox\Wristband\Bearer\BearerConfig;
+use Ixbox\Wristband\Bearer\BearerTokenVerifier;
+use Ixbox\Wristband\Clock\FrozenClock;
+use Ixbox\Wristband\Exception\ClaimInvalidException;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\ExpiredException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Exception\SignatureInvalidException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Jwks\JwksProviderInterface;
+use Ixbox\Wristband\Jwks\StaticJwksProvider;
+use Ixbox\Wristband\Jwt\Base64Url;
+use Ixbox\Wristband\Testing\JwtTokenFactory;
 use PHPUnit\Framework\TestCase;
 
 final class BearerTokenVerifierTest extends TestCase

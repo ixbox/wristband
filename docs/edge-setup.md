@@ -94,13 +94,13 @@ IdP をコンテナで動かすと、ブラウザから見たホスト名（`loc
 トークンの `iss` はブラウザから見たホスト名になるので、アプリでは次のように分けて設定する。
 
 ```dotenv
-EDGE_IDENTITY_SOURCE=bearer
-EDGE_IDENTITY_BEARER_ISSUER=http://localhost:9229/<user pool id>          # トークンの iss と完全一致させる
-EDGE_IDENTITY_BEARER_JWKS_URI=http://idp:9229/<user pool id>/.well-known/jwks.json
-EDGE_IDENTITY_BEARER_AUDIENCES=<client id>
-EDGE_IDENTITY_BEARER_TOKEN_USE=id
-EDGE_IDENTITY_LOGOUT_MODE=oauth2_proxy
-EDGE_IDENTITY_OAUTH2_PROXY_REDIRECT=http://localhost:9229/logout?client_id=<client id>&logout_uri=http%3A%2F%2Flocalhost%3A4180%2Flogged-out
+WRISTBAND_SOURCE=bearer
+WRISTBAND_BEARER_ISSUER=http://localhost:9229/<user pool id>          # トークンの iss と完全一致させる
+WRISTBAND_BEARER_JWKS_URI=http://idp:9229/<user pool id>/.well-known/jwks.json
+WRISTBAND_BEARER_AUDIENCES=<client id>
+WRISTBAND_BEARER_TOKEN_USE=id
+WRISTBAND_LOGOUT_MODE=oauth2_proxy
+WRISTBAND_OAUTH2_PROXY_REDIRECT=http://localhost:9229/logout?client_id=<client id>&logout_uri=http%3A%2F%2Flocalhost%3A4180%2Flogged-out
 ```
 
 oauth2-proxy 側も同じ問題があるので、discovery を使わず、エンドポイントを個別に指定する。

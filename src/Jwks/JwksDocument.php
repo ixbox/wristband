@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Jwks;
+namespace Ixbox\Wristband\Jwks;
 
 /**
  * @internal

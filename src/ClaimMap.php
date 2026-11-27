@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity;
+namespace Ixbox\Wristband;
 
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\ConfigurationException;
 
 /**
  * Which claims feed Identity::sub(), email(), username() and groups().

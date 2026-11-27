@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Bearer;
+namespace Ixbox\Wristband\Bearer;
 
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Jwt\Signature;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Jwt\Signature;
 
 /**
  * What an OIDC bearer token (e.g. the ID token oauth2-proxy forwards with

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Request;
+namespace Ixbox\Wristband\Request;
 
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
-use Ixbox\EdgeIdentity\Exception\TokenMissingException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
+use Ixbox\Wristband\Exception\TokenMissingException;
 
 /**
  * The parts of an HTTP request a source needs: headers (case-insensitive,

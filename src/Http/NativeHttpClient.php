@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Http;
+namespace Ixbox\Wristband\Http;
 
 /**
  * Minimal GET client: ext-curl when available, otherwise PHP streams.

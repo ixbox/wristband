@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Logout;
+namespace Ixbox\Wristband\Logout;
 
 /**
  * Values needed to log out behind an ALB. Framework independent: expire the

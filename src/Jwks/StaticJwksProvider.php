@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Jwks;
+namespace Ixbox\Wristband\Jwks;
 
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
 
 /** A fixed JWKS document, for tests and pinned keys. */
 final class StaticJwksProvider implements JwksProviderInterface

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Source;
+namespace Ixbox\Wristband\Source;
 
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Net\IpMatcher;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Net\IpMatcher;
 
 /**
  * Settings for TrustedHeadersSource.

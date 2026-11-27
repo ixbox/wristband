@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Clock;
+namespace Ixbox\Wristband\Clock;
 
 final class SystemClock implements ClockInterface
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Key;
+namespace Ixbox\Wristband\Key;
 
-use Ixbox\EdgeIdentity\Cache\CacheInterface;
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Cache\CacheInterface;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
 
 /**
  * Caches keys per kid. An ALB key never changes for a given kid, so the TTL

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Jwt;
+namespace Ixbox\Wristband\Jwt;
 
-use Ixbox\EdgeIdentity\Exception\ClaimInvalidException;
-use Ixbox\EdgeIdentity\Exception\ExpiredException;
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
+use Ixbox\Wristband\Exception\ClaimInvalidException;
+use Ixbox\Wristband\Exception\ExpiredException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
 
 /**
  * exp / nbf / iat checks with leeway.

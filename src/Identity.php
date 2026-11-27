@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity;
+namespace Ixbox\Wristband;
 
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
 
 /**
  * The authenticated user as reported by the edge, independent of which

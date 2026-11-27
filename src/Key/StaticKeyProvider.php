@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Key;
+namespace Ixbox\Wristband\Key;
 
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
 
 /** Fixed kid => PEM map, for tests and local setups. */
 final class StaticKeyProvider implements KeyProviderInterface

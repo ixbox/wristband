@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Alb;
+namespace Ixbox\Wristband\Alb;
 
-use Ixbox\EdgeIdentity\Cache\ArrayCache;
-use Ixbox\EdgeIdentity\Cache\CacheInterface;
-use Ixbox\EdgeIdentity\ClaimMap;
-use Ixbox\EdgeIdentity\Clock\ClockInterface;
-use Ixbox\EdgeIdentity\Clock\SystemClock;
-use Ixbox\EdgeIdentity\Exception\AuthenticationException;
-use Ixbox\EdgeIdentity\Exception\ClaimInvalidException;
-use Ixbox\EdgeIdentity\Exception\SignatureInvalidException;
-use Ixbox\EdgeIdentity\Exception\SignerMismatchException;
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
-use Ixbox\EdgeIdentity\Exception\TokenMissingException;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Jwt\Jwt;
-use Ixbox\EdgeIdentity\Jwt\Signature;
-use Ixbox\EdgeIdentity\Jwt\TimeClaims;
-use Ixbox\EdgeIdentity\Key\CachedKeyProvider;
-use Ixbox\EdgeIdentity\Key\HttpKeyProvider;
-use Ixbox\EdgeIdentity\Key\KeyProviderInterface;
+use Ixbox\Wristband\Cache\ArrayCache;
+use Ixbox\Wristband\Cache\CacheInterface;
+use Ixbox\Wristband\ClaimMap;
+use Ixbox\Wristband\Clock\ClockInterface;
+use Ixbox\Wristband\Clock\SystemClock;
+use Ixbox\Wristband\Exception\AuthenticationException;
+use Ixbox\Wristband\Exception\ClaimInvalidException;
+use Ixbox\Wristband\Exception\SignatureInvalidException;
+use Ixbox\Wristband\Exception\SignerMismatchException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
+use Ixbox\Wristband\Exception\TokenMissingException;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Jwt\Jwt;
+use Ixbox\Wristband\Jwt\Signature;
+use Ixbox\Wristband\Jwt\TimeClaims;
+use Ixbox\Wristband\Key\CachedKeyProvider;
+use Ixbox\Wristband\Key\HttpKeyProvider;
+use Ixbox\Wristband\Key\KeyProviderInterface;
 
 /**
  * Verifies the value of the x-amzn-oidc-data header.

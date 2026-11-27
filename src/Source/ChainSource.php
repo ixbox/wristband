@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Source;
+namespace Ixbox\Wristband\Source;
 
-use Ixbox\EdgeIdentity\Exception\TokenMissingException;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Request\ProxyRequest;
+use Ixbox\Wristband\Exception\TokenMissingException;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Request\ProxyRequest;
 
 /**
  * Tries sources in order. Only "no credential" (TokenMissingException) moves

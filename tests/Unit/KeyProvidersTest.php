@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Unit;
+namespace Ixbox\Wristband\Tests\Unit;
 
-use Ixbox\EdgeIdentity\Cache\ArrayCache;
-use Ixbox\EdgeIdentity\Cache\Psr16Cache;
-use Ixbox\EdgeIdentity\Clock\FrozenClock;
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
-use Ixbox\EdgeIdentity\Http\HttpException;
-use Ixbox\EdgeIdentity\Http\HttpResponse;
-use Ixbox\EdgeIdentity\Jwks\HttpJwksProvider;
-use Ixbox\EdgeIdentity\Key\CachedKeyProvider;
-use Ixbox\EdgeIdentity\Key\HttpKeyProvider;
-use Ixbox\EdgeIdentity\Key\KeyProviderInterface;
-use Ixbox\EdgeIdentity\Testing\JwtTokenFactory;
-use Ixbox\EdgeIdentity\Testing\KeyPair;
-use Ixbox\EdgeIdentity\Tests\Support\FakeHttpClient;
+use Ixbox\Wristband\Cache\ArrayCache;
+use Ixbox\Wristband\Cache\Psr16Cache;
+use Ixbox\Wristband\Clock\FrozenClock;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Http\HttpException;
+use Ixbox\Wristband\Http\HttpResponse;
+use Ixbox\Wristband\Jwks\HttpJwksProvider;
+use Ixbox\Wristband\Key\CachedKeyProvider;
+use Ixbox\Wristband\Key\HttpKeyProvider;
+use Ixbox\Wristband\Key\KeyProviderInterface;
+use Ixbox\Wristband\Testing\JwtTokenFactory;
+use Ixbox\Wristband\Testing\KeyPair;
+use Ixbox\Wristband\Tests\Support\FakeHttpClient;
 use PHPUnit\Framework\TestCase;
 use Psr\SimpleCache\CacheInterface as PsrCache;
 
@@ -114,7 +114,7 @@ final class KeyProvidersTest extends TestCase
     public function testPsr16AdapterHashesKeys(): void
     {
         $psr = $this->createMock(PsrCache::class);
-        $psr->expects(self::once())->method('set')->with(self::matchesRegularExpressionCompat('/^edge_identity\.[0-9a-f]{64}$/'), 'v', 10);
+        $psr->expects(self::once())->method('set')->with(self::matchesRegularExpressionCompat('/^wristband\.[0-9a-f]{64}$/'), 'v', 10);
         (new Psr16Cache($psr))->set('alb_key:alb:{weird}/key', 'v', 10);
     }
 

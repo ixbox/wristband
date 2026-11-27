@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Unit;
+namespace Ixbox\Wristband\Tests\Unit;
 
-use Ixbox\EdgeIdentity\Jwt\Base64Url;
+use Ixbox\Wristband\Jwt\Base64Url;
 use PHPUnit\Framework\TestCase;
 
 final class Base64UrlTest extends TestCase

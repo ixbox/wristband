@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Unit;
+namespace Ixbox\Wristband\Tests\Unit;
 
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
-use Ixbox\EdgeIdentity\Jwt\JwkConverter;
-use Ixbox\EdgeIdentity\Jwt\Signature;
-use Ixbox\EdgeIdentity\Testing\KeyPair;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Jwt\JwkConverter;
+use Ixbox\Wristband\Jwt\Signature;
+use Ixbox\Wristband\Testing\KeyPair;
 use PHPUnit\Framework\TestCase;
 
 final class SignatureTest extends TestCase

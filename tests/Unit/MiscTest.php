@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Unit;
+namespace Ixbox\Wristband\Tests\Unit;
 
-use Ixbox\EdgeIdentity\ClaimMap;
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Logout\AlbLogout;
-use Ixbox\EdgeIdentity\Logout\Oauth2ProxyLogout;
-use Ixbox\EdgeIdentity\Net\IpMatcher;
+use Ixbox\Wristband\ClaimMap;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Logout\AlbLogout;
+use Ixbox\Wristband\Logout\Oauth2ProxyLogout;
+use Ixbox\Wristband\Net\IpMatcher;
 use PHPUnit\Framework\TestCase;
 
 final class MiscTest extends TestCase

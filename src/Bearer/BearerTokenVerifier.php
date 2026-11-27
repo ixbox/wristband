@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Bearer;
+namespace Ixbox\Wristband\Bearer;
 
-use Ixbox\EdgeIdentity\ClaimMap;
-use Ixbox\EdgeIdentity\Clock\ClockInterface;
-use Ixbox\EdgeIdentity\Clock\SystemClock;
-use Ixbox\EdgeIdentity\Exception\AuthenticationException;
-use Ixbox\EdgeIdentity\Exception\ClaimInvalidException;
-use Ixbox\EdgeIdentity\Exception\SignatureInvalidException;
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
-use Ixbox\EdgeIdentity\Exception\TokenMissingException;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Jwks\JwksProviderInterface;
-use Ixbox\EdgeIdentity\Jwt\JwkConverter;
-use Ixbox\EdgeIdentity\Jwt\Jwt;
-use Ixbox\EdgeIdentity\Jwt\Signature;
-use Ixbox\EdgeIdentity\Jwt\TimeClaims;
+use Ixbox\Wristband\ClaimMap;
+use Ixbox\Wristband\Clock\ClockInterface;
+use Ixbox\Wristband\Clock\SystemClock;
+use Ixbox\Wristband\Exception\AuthenticationException;
+use Ixbox\Wristband\Exception\ClaimInvalidException;
+use Ixbox\Wristband\Exception\SignatureInvalidException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
+use Ixbox\Wristband\Exception\TokenMissingException;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Jwks\JwksProviderInterface;
+use Ixbox\Wristband\Jwt\JwkConverter;
+use Ixbox\Wristband\Jwt\Jwt;
+use Ixbox\Wristband\Jwt\Signature;
+use Ixbox\Wristband\Jwt\TimeClaims;
 
 /**
  * Verifies an OIDC JWT (ID or access token) against a JWKS.

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Cache;
+namespace Ixbox\Wristband\Cache;
 
-use Ixbox\EdgeIdentity\Clock\ClockInterface;
-use Ixbox\EdgeIdentity\Clock\SystemClock;
+use Ixbox\Wristband\Clock\ClockInterface;
+use Ixbox\Wristband\Clock\SystemClock;
 
 /** Per-process memory cache. */
 final class ArrayCache implements CacheInterface

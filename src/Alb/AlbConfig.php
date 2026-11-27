@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Alb;
+namespace Ixbox\Wristband\Alb;
 
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\ConfigurationException;
 
 /**
  * What an ALB token must look like to be accepted.

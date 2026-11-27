@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Cache;
+namespace Ixbox\Wristband\Cache;
 
 /**
  * Adapts a PSR-16 cache (psr/simple-cache 1, 2 or 3), e.g. Laravel's cache
@@ -41,6 +41,6 @@ final class Psr16Cache implements CacheInterface
 
     private static function key(string $key): string
     {
-        return 'edge_identity.' . hash('sha256', $key);
+        return 'wristband.' . hash('sha256', $key);
     }
 }

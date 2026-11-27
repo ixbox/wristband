@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Testing;
+namespace Ixbox\Wristband\Testing;
 
-use Ixbox\EdgeIdentity\Alb\AlbConfig;
-use Ixbox\EdgeIdentity\Alb\AlbTokenVerifier;
-use Ixbox\EdgeIdentity\Clock\ClockInterface;
-use Ixbox\EdgeIdentity\Clock\SystemClock;
-use Ixbox\EdgeIdentity\Jwt\Base64Url;
-use Ixbox\EdgeIdentity\Jwt\Signature;
-use Ixbox\EdgeIdentity\Key\StaticKeyProvider;
+use Ixbox\Wristband\Alb\AlbConfig;
+use Ixbox\Wristband\Alb\AlbTokenVerifier;
+use Ixbox\Wristband\Clock\ClockInterface;
+use Ixbox\Wristband\Clock\SystemClock;
+use Ixbox\Wristband\Jwt\Base64Url;
+use Ixbox\Wristband\Jwt\Signature;
+use Ixbox\Wristband\Key\StaticKeyProvider;
 
 /**
  * Issues tokens in the exact shape an ALB puts in x-amzn-oidc-data:

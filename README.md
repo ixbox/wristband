@@ -1,17 +1,18 @@
-# ixbox/edge-identity
+# ixbox/wristband
 
 認証を前段（ALB、oauth2-proxy など）に任せた PHP アプリで、前段が付けたヘッダーを検証してユーザーを特定するライブラリ。
+名前は、入口で付けてもらい、中では見せるだけで通れる入場リストバンドに由来する。
 
 - PHP 7.2 から 8.x で動く。
   依存は `ext-openssl`、`ext-json`、Symfony の polyfill（`polyfill-php80`、`polyfill-ctype`）だけで、JWT ライブラリにもフレームワークにも依存しない。
 - ALB の `x-amzn-oidc-data`（ES256）、OIDC の JWT（RS256、ES256。oauth2-proxy の `--pass-authorization-header` など）、oauth2-proxy の署名のないヘッダーの 3 種類を、共通の `Identity` に変換する。
-- Laravel から使う場合は、guard を提供する `ixbox/laravel-edge-identity` を使う。
+- Laravel から使う場合は、guard を提供する `ixbox/laravel-wristband` を使う。
 - 前段（ALB、Cognito、oauth2-proxy）の設定例と注意点は [docs/edge-setup.md](docs/edge-setup.md) にある。
 
 ## インストール
 
 ```bash
-composer require ixbox/edge-identity
+composer require ixbox/wristband
 ```
 
 Packagist には未登録である。
@@ -19,7 +20,7 @@ Packagist には未登録である。
 
 ```json
 "repositories": [
-    { "type": "vcs", "url": "https://github.com/ixbox/edge-identity" }
+    { "type": "vcs", "url": "https://github.com/ixbox/wristband" }
 ]
 ```
 
@@ -28,8 +29,8 @@ Packagist には未登録である。
 ### ALB（`x-amzn-oidc-data`）
 
 ```php
-use Ixbox\EdgeIdentity\Alb\AlbConfig;
-use Ixbox\EdgeIdentity\Alb\AlbTokenVerifier;
+use Ixbox\Wristband\Alb\AlbConfig;
+use Ixbox\Wristband\Alb\AlbTokenVerifier;
 
 $verifier = new AlbTokenVerifier(new AlbConfig(
     'arn:aws:elasticloadbalancing:ap-northeast-1:123456789012:loadbalancer/app/xxx/yyy', // 必須: signer
@@ -57,8 +58,8 @@ PHP-FPM ではリクエストごとにメモリが消えるので、共有のキ
 どの source も `ProxyRequest` を受け取り、`Identity` を返す。
 
 ```php
-use Ixbox\EdgeIdentity\Request\ProxyRequest;
-use Ixbox\EdgeIdentity\Source\AlbOidcDataSource;
+use Ixbox\Wristband\Request\ProxyRequest;
+use Ixbox\Wristband\Source\AlbOidcDataSource;
 
 $source = new AlbOidcDataSource($verifier);
 
@@ -82,10 +83,10 @@ $identity = $source->authenticate(ProxyRequest::fromArray(['x-amzn-oidc-data' =>
 oauth2-proxy に `--pass-authorization-header=true` を付けると、ID トークンが `Authorization: Bearer` で届く。
 
 ```php
-use Ixbox\EdgeIdentity\Bearer\BearerConfig;
-use Ixbox\EdgeIdentity\Bearer\BearerTokenVerifier;
-use Ixbox\EdgeIdentity\Jwks\HttpJwksProvider;
-use Ixbox\EdgeIdentity\Source\BearerJwtSource;
+use Ixbox\Wristband\Bearer\BearerConfig;
+use Ixbox\Wristband\Bearer\BearerTokenVerifier;
+use Ixbox\Wristband\Jwks\HttpJwksProvider;
+use Ixbox\Wristband\Source\BearerJwtSource;
 
 $config = new BearerConfig(
     'https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_XXXX', // iss（完全一致）
@@ -115,8 +116,8 @@ JWKS は kid ごとに引く。
 可能なら `BearerJwtSource` を使う。
 
 ```php
-use Ixbox\EdgeIdentity\Source\TrustedHeadersConfig;
-use Ixbox\EdgeIdentity\Source\TrustedHeadersSource;
+use Ixbox\Wristband\Source\TrustedHeadersConfig;
+use Ixbox\Wristband\Source\TrustedHeadersSource;
 
 $source = new TrustedHeadersSource(new TrustedHeadersConfig([
     'preset'               => 'x-forwarded',          // または 'x-auth-request'
@@ -146,7 +147,7 @@ nginx の `real_ip` で `REMOTE_ADDR` をクライアントの IP に書き換�
 
 ## 例外
 
-失敗はすべて `Ixbox\EdgeIdentity\Exception\AuthenticationException` の下位の例外になる。
+失敗はすべて `Ixbox\Wristband\Exception\AuthenticationException` の下位の例外になる。
 クラスで分類し、`reason()` で詳細を返す。
 メッセージにトークンそのものは含めない。
 
@@ -190,7 +191,7 @@ PHP-FPM は重複したヘッダーを `a, b` の形に連結するが、カン�
 PSR-16 のキャッシュがない環境では、`CacheInterface` を自分で実装する。
 
 ```php
-final class RedisKeyCache implements \Ixbox\EdgeIdentity\Cache\CacheInterface
+final class RedisKeyCache implements \Ixbox\Wristband\Cache\CacheInterface
 {
     private $redis;
 
@@ -199,7 +200,7 @@ final class RedisKeyCache implements \Ixbox\EdgeIdentity\Cache\CacheInterface
     public function get(string $key): ?string
     {
         try {
-            $value = $this->redis->get('edge_identity:' . sha1($key));
+            $value = $this->redis->get('wristband:' . sha1($key));
         } catch (\Throwable $e) {
             return null;
         }
@@ -209,7 +210,7 @@ final class RedisKeyCache implements \Ixbox\EdgeIdentity\Cache\CacheInterface
     public function set(string $key, string $value, int $ttlSeconds): void
     {
         try {
-            $this->redis->setex('edge_identity:' . sha1($key), $ttlSeconds, $value);
+            $this->redis->setex('wristband:' . sha1($key), $ttlSeconds, $value);
         } catch (\Throwable $e) {
         }
     }
@@ -226,8 +227,8 @@ ALB の公開鍵は kid ごとに変わらないので、既定で 7 日保持�
 公開鍵の URL は差し替えられる（検証用の環境やモックの配布元を使う場合）。
 
 ```php
-use Ixbox\EdgeIdentity\Key\CachedKeyProvider;
-use Ixbox\EdgeIdentity\Key\HttpKeyProvider;
+use Ixbox\Wristband\Key\CachedKeyProvider;
+use Ixbox\Wristband\Key\HttpKeyProvider;
 
 $keys = new CachedKeyProvider(new HttpKeyProvider('http://localhost:8080/keys/{kid}'), $cache, 604800, 10, 'local');
 ```
@@ -237,8 +238,8 @@ $keys = new CachedKeyProvider(new HttpKeyProvider('http://localhost:8080/keys/{k
 フレームワークに依存しないよう、値だけを返す。
 
 ```php
-use Ixbox\EdgeIdentity\Logout\AlbLogout;
-use Ixbox\EdgeIdentity\Logout\Oauth2ProxyLogout;
+use Ixbox\Wristband\Logout\AlbLogout;
+use Ixbox\Wristband\Logout\Oauth2ProxyLogout;
 
 AlbLogout::cookiesToExpire();   // AWSELBAuthSessionCookie と -0 から -3
 AlbLogout::cognitoLogoutUrl('auth.example.com', $clientId, 'https://app.example.com/logged-out');
@@ -250,13 +251,13 @@ ALB の場合は、返された cookie をすべて期限切れにしてから�
 
 ## テスト用の道具
 
-`Ixbox\EdgeIdentity\Testing` は、このライブラリを使うアプリのテストで使う。
+`Ixbox\Wristband\Testing` は、このライブラリを使うアプリのテストで使う。
 本番のコードからは使わない。
 
 ```php
-use Ixbox\EdgeIdentity\Clock\FrozenClock;
-use Ixbox\EdgeIdentity\Testing\AlbTokenFactory;
-use Ixbox\EdgeIdentity\Testing\JwtTokenFactory;
+use Ixbox\Wristband\Clock\FrozenClock;
+use Ixbox\Wristband\Testing\AlbTokenFactory;
+use Ixbox\Wristband\Testing\JwtTokenFactory;
 
 $alb = new AlbTokenFactory();                 // P-256 の鍵を生成する
 $token = $alb->issue(['email' => 'taro@example.com'], [], 120);

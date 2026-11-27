@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Key;
+namespace Ixbox\Wristband\Key;
 
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
-use Ixbox\EdgeIdentity\Http\HttpClientInterface;
-use Ixbox\EdgeIdentity\Http\HttpException;
-use Ixbox\EdgeIdentity\Http\NativeHttpClient;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Http\HttpClientInterface;
+use Ixbox\Wristband\Http\HttpException;
+use Ixbox\Wristband\Http\NativeHttpClient;
 
 /**
  * Fetches ALB public keys: https://public-keys.auth.elb.{region}.amazonaws.com/{kid}

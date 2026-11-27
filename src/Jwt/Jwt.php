@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Jwt;
+namespace Ixbox\Wristband\Jwt;
 
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
 
 /**
  * A compact JWS split into its parts. Parsing does not verify anything

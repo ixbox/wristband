@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Net;
+namespace Ixbox\Wristband\Net;
 
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\ConfigurationException;
 
 /** Matches an IPv4/IPv6 address against addresses and CIDR ranges. */
 final class IpMatcher

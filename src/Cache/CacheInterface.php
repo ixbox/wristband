@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Cache;
+namespace Ixbox\Wristband\Cache;
 
 /**
  * The tiny string cache the key providers need. Implementations must not

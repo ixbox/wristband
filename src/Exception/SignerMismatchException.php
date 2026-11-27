@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Exception;
+namespace Ixbox\Wristband\Exception;
 
 /**
  * The ALB token's signer is not one of the configured load balancer ARNs.

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Jwks;
+namespace Ixbox\Wristband\Jwks;
 
-use Ixbox\EdgeIdentity\Cache\ArrayCache;
-use Ixbox\EdgeIdentity\Cache\CacheInterface;
-use Ixbox\EdgeIdentity\Clock\ClockInterface;
-use Ixbox\EdgeIdentity\Clock\SystemClock;
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
-use Ixbox\EdgeIdentity\Http\HttpClientInterface;
-use Ixbox\EdgeIdentity\Http\HttpException;
-use Ixbox\EdgeIdentity\Http\NativeHttpClient;
+use Ixbox\Wristband\Cache\ArrayCache;
+use Ixbox\Wristband\Cache\CacheInterface;
+use Ixbox\Wristband\Clock\ClockInterface;
+use Ixbox\Wristband\Clock\SystemClock;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Http\HttpClientInterface;
+use Ixbox\Wristband\Http\HttpException;
+use Ixbox\Wristband\Http\NativeHttpClient;
 
 /**
  * Fetches a JWKS over HTTP, either from a fixed jwks_uri or through OIDC

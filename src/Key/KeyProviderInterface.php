@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Key;
+namespace Ixbox\Wristband\Key;
 
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
 
 /** Resolves an ALB key id to its PEM public key. */
 interface KeyProviderInterface

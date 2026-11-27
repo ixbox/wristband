@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Exception;
+namespace Ixbox\Wristband\Exception;
 
 /**
  * A claim does not match the configuration: client, iss, aud, token_use, nbf, iat.

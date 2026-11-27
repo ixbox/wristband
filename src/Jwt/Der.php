@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Jwt;
+namespace Ixbox\Wristband\Jwt;
 
 /**
  * The few DER constructs needed for ECDSA signatures and SubjectPublicKeyInfo.

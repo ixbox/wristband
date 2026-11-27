@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Exception;
+namespace Ixbox\Wristband\Exception;
 
 /**
  * The library was configured incorrectly. This is a programming/deployment

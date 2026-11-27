@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Unit;
+namespace Ixbox\Wristband\Tests\Unit;
 
-use Ixbox\EdgeIdentity\Alb\AlbConfig;
-use Ixbox\EdgeIdentity\Alb\AlbTokenVerifier;
-use Ixbox\EdgeIdentity\Clock\FrozenClock;
-use Ixbox\EdgeIdentity\Exception\ExpiredException;
-use Ixbox\EdgeIdentity\Jwt\Base64Url;
-use Ixbox\EdgeIdentity\Key\StaticKeyProvider;
+use Ixbox\Wristband\Alb\AlbConfig;
+use Ixbox\Wristband\Alb\AlbTokenVerifier;
+use Ixbox\Wristband\Clock\FrozenClock;
+use Ixbox\Wristband\Exception\ExpiredException;
+use Ixbox\Wristband\Jwt\Base64Url;
+use Ixbox\Wristband\Key\StaticKeyProvider;
 use PHPUnit\Framework\TestCase;
 
 /**

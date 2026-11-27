@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Exception;
+namespace Ixbox\Wristband\Exception;
 
 /**
  * Base class for every reason a request could not be authenticated.

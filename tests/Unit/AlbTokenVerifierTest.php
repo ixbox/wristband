@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Tests\Unit;
+namespace Ixbox\Wristband\Tests\Unit;
 
-use Ixbox\EdgeIdentity\Alb\AlbConfig;
-use Ixbox\EdgeIdentity\Alb\AlbTokenVerifier;
-use Ixbox\EdgeIdentity\Clock\FrozenClock;
-use Ixbox\EdgeIdentity\Exception\AuthenticationException;
-use Ixbox\EdgeIdentity\Exception\ClaimInvalidException;
-use Ixbox\EdgeIdentity\Exception\ConfigurationException;
-use Ixbox\EdgeIdentity\Exception\ExpiredException;
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
-use Ixbox\EdgeIdentity\Exception\SignatureInvalidException;
-use Ixbox\EdgeIdentity\Exception\SignerMismatchException;
-use Ixbox\EdgeIdentity\Exception\TokenMalformedException;
-use Ixbox\EdgeIdentity\Exception\TokenMissingException;
-use Ixbox\EdgeIdentity\Identity;
-use Ixbox\EdgeIdentity\Jwt\Base64Url;
-use Ixbox\EdgeIdentity\Key\KeyProviderInterface;
-use Ixbox\EdgeIdentity\Key\StaticKeyProvider;
-use Ixbox\EdgeIdentity\Testing\AlbTokenFactory;
+use Ixbox\Wristband\Alb\AlbConfig;
+use Ixbox\Wristband\Alb\AlbTokenVerifier;
+use Ixbox\Wristband\Clock\FrozenClock;
+use Ixbox\Wristband\Exception\AuthenticationException;
+use Ixbox\Wristband\Exception\ClaimInvalidException;
+use Ixbox\Wristband\Exception\ConfigurationException;
+use Ixbox\Wristband\Exception\ExpiredException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Exception\SignatureInvalidException;
+use Ixbox\Wristband\Exception\SignerMismatchException;
+use Ixbox\Wristband\Exception\TokenMalformedException;
+use Ixbox\Wristband\Exception\TokenMissingException;
+use Ixbox\Wristband\Identity;
+use Ixbox\Wristband\Jwt\Base64Url;
+use Ixbox\Wristband\Key\KeyProviderInterface;
+use Ixbox\Wristband\Key\StaticKeyProvider;
+use Ixbox\Wristband\Testing\AlbTokenFactory;
 use PHPUnit\Framework\TestCase;
 
 final class AlbTokenVerifierTest extends TestCase

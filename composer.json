@@ -1,5 +1,5 @@
 {
-    "name": "ixbox/edge-identity",
+    "name": "ixbox/wristband",
     "description": "Verify user identity passed by an authenticating edge (AWS ALB x-amzn-oidc-data, oauth2-proxy, OIDC bearer tokens). PHP 7.2+, no JWT library dependency.",
     "type": "library",
     "license": "MIT",
@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Ixbox\\EdgeIdentity\\": "src/"
+            "Ixbox\\Wristband\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ixbox\\EdgeIdentity\\Tests\\": "tests/"
+            "Ixbox\\Wristband\\Tests\\": "tests/"
         }
     },
     "config": {

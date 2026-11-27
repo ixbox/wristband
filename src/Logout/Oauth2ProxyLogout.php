@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Logout;
+namespace Ixbox\Wristband\Logout;
 
 /**
  * oauth2-proxy clears its own cookie at /oauth2/sign_out and then redirects

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Testing;
+namespace Ixbox\Wristband\Testing;
 
-use Ixbox\EdgeIdentity\Bearer\BearerConfig;
-use Ixbox\EdgeIdentity\Bearer\BearerTokenVerifier;
-use Ixbox\EdgeIdentity\Clock\ClockInterface;
-use Ixbox\EdgeIdentity\Clock\SystemClock;
-use Ixbox\EdgeIdentity\Jwks\StaticJwksProvider;
-use Ixbox\EdgeIdentity\Jwt\Base64Url;
-use Ixbox\EdgeIdentity\Jwt\Signature;
+use Ixbox\Wristband\Bearer\BearerConfig;
+use Ixbox\Wristband\Bearer\BearerTokenVerifier;
+use Ixbox\Wristband\Clock\ClockInterface;
+use Ixbox\Wristband\Clock\SystemClock;
+use Ixbox\Wristband\Jwks\StaticJwksProvider;
+use Ixbox\Wristband\Jwt\Base64Url;
+use Ixbox\Wristband\Jwt\Signature;
 
 /**
  * Issues OIDC-style JWTs (unpadded base64url, RS256 or ES256) and the JWKS

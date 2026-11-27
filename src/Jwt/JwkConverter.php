@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Jwt;
+namespace Ixbox\Wristband\Jwt;
 
-use Ixbox\EdgeIdentity\Exception\KeyFetchFailedException;
+use Ixbox\Wristband\Exception\KeyFetchFailedException;
 
 /**
  * Turns an RSA or P-256 EC JWK into a PEM SubjectPublicKeyInfo.

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Ixbox\EdgeIdentity\Testing;
+namespace Ixbox\Wristband\Testing;
 
-use Ixbox\EdgeIdentity\Jwt\Base64Url;
-use Ixbox\EdgeIdentity\Jwt\Signature;
+use Ixbox\Wristband\Jwt\Base64Url;
+use Ixbox\Wristband\Jwt\Signature;
 
 /**
  * A freshly generated signing key. For tests only.
