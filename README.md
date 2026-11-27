@@ -278,16 +278,8 @@ $jwt->jwksProvider();
 ```bash
 composer install
 vendor/bin/phpunit
-vendor/bin/phpstan analyse     # phpVersion: 70200 で、7.2 で使えない構文と関数を検出する
+vendor/bin/phpstan analyse
 ```
-
-PHP 7.2 での確認は Docker で行える。
-`composer config platform.php 7.2.34` を設定したコピーで `composer update` し、`php:7.2-cli` のコンテナで `vendor/bin/phpunit` を実行する。
-CI（`.github/workflows/ci.yml`）は PHP 7.2 から 8.5 の行列で実行する。
-
-`tests/Fixtures/alb/` には、検証し続けるべき ALB のトークンを置く。
-いまは合成したトークンしかない。
-実際の ALB から取ったトークンを追加する手順は、そのディレクトリの README にある。
 
 ## ライセンス
 
